@@ -34,3 +34,9 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+          echo $GITHUB_TOKEN
+          echo ${{ secrets }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.SECRET }}
+          FIRST_NAME: Mona
+          LAST_NAME: Octocat
