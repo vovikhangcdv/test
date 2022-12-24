@@ -66,6 +66,10 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: echo "Done!"
+      - run: |
+          echo "Done!"
+          echo $PR_NUMBER
+          echo $PR_REF
+          echo $PR_REPO
 
 # https://github.com/actions/checkout/issues/455
