@@ -37,6 +37,9 @@ jobs:
 
       - name: 'Debug'
         run:
+          cat pr_number
+          cat pr_ref
+          cat pr_repo
           echo "$PR_NUMBER=$(cat pr_number)" >> $GITHUB_ENV
           echo "$PR_REF=$(cat pr_ref)" >> $GITHUB_ENV
           echo "$PR_REPO=$(cat pr_repo)" >> $GITHUB_ENV
