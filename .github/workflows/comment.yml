@@ -1,6 +1,4 @@
-// a workflow that run after a pull request pass the test, add a thank you comment if the pull request pass the test
-
-name: Comment
+name: "Comment"
 
 on:
   workflow_run:
