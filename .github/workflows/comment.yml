@@ -16,6 +16,12 @@ jobs:
     if: github.event.workflow_run.pull_request.base.ref == github.event.workflow_run.repository.default_branch
     runs-on: ubuntu-latest
     steps:
+      - name: debug
+        run: |
+          printenv
+          echo ${{ github.event.workflow_run.pull_request.number }}
+        env:
+          PR_ID: ${{ github.event.workflow_run.pull_request.number }}
       - uses: actions/github-script@v6
         env:
           PR_ID: ${{ github.event.workflow_run.pull_request.number }}
@@ -27,9 +33,4 @@ jobs:
               body: "Thanks very much for contributing! :zap:"
             })
   
-      - name: debug
-        run: |
-          printenv
-          echo ${{ github.event.workflow_run.pull_request.number }}
-        env:
-          PR_ID: ${{ github.event.workflow_run.pull_request.number }}
+
