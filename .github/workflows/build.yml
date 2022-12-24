@@ -52,11 +52,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue_number,
-              body: `Thank you for the PR!\n${process.env.PR_NUMBER}\n${process.env.PR_REF}\n${process.env.PR_REPO}`
+              body: `Thank you for the PR! 🙏`
             });
 
       - name: Clone PR
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ env.PR_REF }}
@@ -66,10 +66,4 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: |
-          echo "Done!"
-          echo $PR_NUMBER
-          echo $PR_REF
-          echo $PR_REPO
-
-# https://github.com/actions/checkout/issues/455
+      - run: echo "Done!"
