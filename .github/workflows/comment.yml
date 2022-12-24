@@ -19,6 +19,7 @@ jobs:
       - name: debug
         run: |
           printenv
+          echo ${{ github.event.workflow_run.pull_request.base.ref }}
           echo ${{ github.event.workflow_run.pull_request.number }}
         env:
           PR_ID: ${{ github.event.workflow_run.pull_request.number }}
