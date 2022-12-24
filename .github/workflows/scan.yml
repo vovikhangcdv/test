@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir pr
           echo ${{ github.event.number }} > ./pr/pr_number
-          echo ${{github.event.pull_request.head.ref}} > ./pr/pr_ref
+          echo ${{ github.event.pull_request.head.ref }} > ./pr/pr_ref
           echo ${{ github.event.pull_request.head.repo.full_name }} > ./pr/pr_repo
       - uses: actions/upload-artifact@v2
         with:
