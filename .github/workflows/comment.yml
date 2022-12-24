@@ -21,6 +21,6 @@ jobs:
           script: |
             github.rest.issues.createComment({
               ...context.repo,
-              issue_number: context.workflow_run.payload.pull_request.number,
+              issue_number: context.event.workflow_run.payload.pull_request.number,
               body: "Thanks very much for contributing! :zap:"
             })
