@@ -37,13 +37,9 @@ jobs:
 
       - name: 'Debug'
         run:
-          cat pr_number
-          cat pr/pr_number
-          cat pr/pr_ref
-          cat pr/pr_repo
-          echo "$PR_NUMBER=$(cat pr/pr_number)" >> $GITHUB_ENV
-          echo "$PR_REF=$(cat pr/pr_ref)" >> $GITHUB_ENV
-          echo "$PR_REPO=$(cat pr/pr_repo)" >> $GITHUB_ENV
+          echo "$PR_NUMBER=$(cat pr_number)" >> $GITHUB_ENV
+          echo "$PR_REF=$(cat pr_ref)" >> $GITHUB_ENV
+          echo "$PR_REPO=$(cat pr_repo)" >> $GITHUB_ENV
 
       - name: 'Comment on PR'
         uses: actions/github-script@v6
