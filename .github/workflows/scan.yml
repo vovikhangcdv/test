@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
     branches: [main]
-
+    
 jobs:
-  - name: Scan
+  scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
