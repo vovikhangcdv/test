@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         env:
-          PR_ID: github.event.workflow_run.pull_request.number
+          PR_ID: ${{ github.event.workflow_run.pull_request.number }}
         with:
           script: |
             github.rest.issues.createComment({
