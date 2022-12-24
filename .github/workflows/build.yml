@@ -51,8 +51,8 @@ jobs:
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: process.env.PR_NUMBER,
-              body: 'Thank you for the PR!'
+              issue_number: issue_number,
+              body: `Thank you for the PR!\n${process.env.PR_NUMBER}\n${process.env.PR_REF}\n${process.env.PR_REPO}`
             });
 
       - name: Clone PR
