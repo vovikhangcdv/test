@@ -37,9 +37,6 @@ jobs:
 
       - name: 'Debug'
         run:
-          cat pr_number
-          cat pr_ref
-          cat pr_repo
           echo "PR_NUMBER=$(cat pr_number)" >> $GITHUB_ENV
           echo "PR_REF=$(cat pr_ref)" >> $GITHUB_ENV
           echo "PR_REPO=$(cat pr_repo)" >> $GITHUB_ENV
@@ -50,7 +47,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             let fs = require('fs');
-            let issue_number = Number(fs.readFileSync('pr/pr_number'));
+            let issue_number = Number(fs.readFileSync('pr_number'));
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
