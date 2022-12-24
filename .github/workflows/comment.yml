@@ -18,7 +18,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            github.issues.createComment({
+            github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.payload.pull_request.number,
               body: "Thanks very much for contributing! :zap:"
