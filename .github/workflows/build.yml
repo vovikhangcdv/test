@@ -51,7 +51,7 @@ jobs:
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: issue_number,
+              issue_number: process.env.PR_NUMBER,
               body: 'Thank you for the PR!'
             });
 
