@@ -22,6 +22,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         envs: SECRET, REPO, REPO_NAME
+        script_stop: true
         script: |
           rm -rf $REPO_NAME
           git clone $REPO
