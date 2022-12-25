@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Clean up workspace
       continue-on-error: true
-      run: rm -rf ${{ github.event.repository.name }}
+      run: rm -rf ~/*
     - name: Clean up docker
       continue-on-error: true
       run: docker rm -f contribute-me-container
