@@ -5,6 +5,7 @@ ARG repo
 
 ENV SECRET=$secret
 ENV REPO=$repo
+ENV PORT=8080
 
 # Create app directory
 WORKDIR /usr/src/app
