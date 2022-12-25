@@ -23,6 +23,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          cd $GITHUB_WORKSPACE
           docker build . -t doublevkay/contribute-me --build-arg secret=$SECRET --build-arg repo=$REPO
           docker kill contribute-me-container
           docker run -p 8080:8080 -d doublevkay/contribute-me --name contribute-me-container
