@@ -10,6 +10,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: Clean up
+      continue-on-error: true
+      run: |
+        rm -rf ./*
+        docker kill contribute-me-container
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       env:
@@ -24,12 +29,10 @@ jobs:
         envs: SECRET, REPO, REPO_NAME
         script_stop: true
         script: |
-          rm -rf $REPO_NAME
           git clone $REPO
           cd $REPO_NAME
           git fetch origin
           docker build . -t doublevkay/contribute-me --build-arg secret=$SECRET --build-arg repo=$REPO
-          docker kill contribute-me-container
           docker run -p 8080:8080 -d doublevkay/contribute-me --name contribute-me-container
           echo "Deployed successfully"
           
