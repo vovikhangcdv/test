@@ -12,10 +12,9 @@ jobs:
     steps:
     - name: Clean up workspace
       continue-on-error: true
-      run: rm -rf ~/*
-    - name: Clean up docker
-      continue-on-error: true
-      run: docker kill contribute-me-container
+      run: |
+        rm -rf ~/*
+        docker rf -f contribute-me-container
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       env:
