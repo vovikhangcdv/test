@@ -1,0 +1,25 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@master
+      env:
+        SECRET: ${{ secrets.FLAG }}
+        REPO: "https://github.com/${{ github.event.repository.full_name }}"
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          docker build . -t doublevkay/contribute-me --build-arg secret=$SECRET --build-arg repo=$REPO
+          docker kill contribute-me-container
+          docker run -p 8080:8080 -d doublevkay/contribute-me --name contribute-me-container
+          echo "Deployed successfully"
+          echo "Sever is running at http://${{ secrets.HOST }}:8080"

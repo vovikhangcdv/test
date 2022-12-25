@@ -1,0 +1,22 @@
+name: Credit
+
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+permission: read-all
+
+jobs:
+  credit:
+  if: github.event.review.state == 'approved'
+  runs-on: ubuntu-latest
+  steps:
+    - name: Credit
+      run: |
+        echo "Crediting ${{ github.event.head_commit.author.name }}"
+        curl -X POST -d "secret=$SECRET&username=$USERNAME" "http://$HOST:$PORT/credit"
+      env: 
+        SECRET: ${{ secrets.FLAG }}
+        USERNAME: ${{ github.event.pull_request.user.login }}
+        SERVER: ${{ secrets.SERVER }}

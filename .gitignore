@@ -1,1 +1,7 @@
 node_modules
+dist
+routes/dist
+public/dist
+view/dist
+view/includes/dist
+.env

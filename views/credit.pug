@@ -1,0 +1,29 @@
+
+extends layout
+
+block content
+    // a table credit contributor
+    .jumbotron
+        .container.text-center
+            h1 📋Credits
+            p
+                i Thank you for your contribution 🙏
+    .container-fluid.bg-3.text-center
+        div(style="margin: 0 auto; width: 50%;")
+            table.table.dark-table
+                thead
+                    tr
+                        th(scope="col") 📌 
+                        th(scope="col") 🤖 Username
+                        th(scope="col") 👏 Number of contributions
+                tbody
+                    //- for username, num of contributions in leaderboard object
+                    - var i = 1
+                    each username in leaderboard
+                        tr
+                            th(scope="row")= i++
+                            td
+                                b
+                                    i= username
+                            td
+                                a(href=`${repo}/pulls?q=author%3A${username}`, target="_blank")= users[username]

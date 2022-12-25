@@ -23,9 +23,14 @@ jobs:
       - name: Save PR for build
         run: |
           mkdir pr
-          echo ${{ github.event.number }} > ./pr/pr_number
-          echo ${{ github.event.pull_request.head.ref }} > ./pr/pr_ref
-          echo ${{ github.event.pull_request.head.repo.full_name }} > ./pr/pr_repo
+          echo $PR_NUMBER > ./pr/pr_number
+          echo $PR_REF > ./pr/pr_ref
+          echo $PR_REPO > ./pr/pr_repo
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+          PR_REF: ${{ github.event.pull_request.head.ref }}
+          PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+
       - uses: actions/upload-artifact@v2
         with:
           name: pr
