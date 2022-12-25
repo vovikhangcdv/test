@@ -16,7 +16,7 @@ jobs:
       continue-on-error: true
       run: |
         rm -rf ~/*
-        docker rf -f contribute-me-container
+        docker kill contribute-me-container
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       env:
