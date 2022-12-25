@@ -24,7 +24,7 @@ jobs:
         envs: SECRET, REPO, REPO_NAME
         script: |
           rm -rf ~/*
-          docker kill contribute-me-container
+          docker container rm -f contribute-me-container
           git clone $REPO
           cd $REPO_NAME
           git fetch origin
