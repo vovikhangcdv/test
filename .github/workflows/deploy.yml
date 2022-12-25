@@ -23,6 +23,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         envs: SECRET, REPO, REPO_NAME
         script: |
+          rf -rf $REPO_NAME
           git clone $REPO
           cd $REPO_NAME
           git fetch origin
